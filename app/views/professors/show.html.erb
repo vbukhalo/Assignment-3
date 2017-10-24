@@ -10,5 +10,29 @@
   <%= @professor.professor_sections %>
 </p>
 
+<p>
+	<strong>Students in Section</strong>
+</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Student ID</th>
+			<th>Student First Name</th>
+			<th>Student Last Name</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @professor.enrollments.each do |enrollments| %>
+		<tr>
+			<td><%= enrollments.student.ID_Number %></td>
+			<td><%= enrollments.student.First_Name %></td>
+			<td><%= enrollments.student.Last_Name %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
 <%= link_to 'Edit', edit_professor_path(@professor) %> |
 <%= link_to 'Back', professors_path %>

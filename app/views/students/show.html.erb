@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id number:</strong>
+  <%= @student.ID_Number %>
+</p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @student.First_Name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @student.Last_Name %>
+</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Section Number</th>
+			<th>Section Professor</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @student.enrollments.each do |enrollments| %>
+		<tr>
+			<td><%= enrollments.section.section_number %></td>
+			<td><%= enrollments.section.professor.professor_name %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<%= link_to 'Edit', edit_student_path(@student) %> |
+<%= link_to 'Back', students_path %>

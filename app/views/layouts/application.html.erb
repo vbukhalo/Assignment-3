@@ -9,7 +9,15 @@
   </head>
 
   <body>
-
+  <%= link_to 'Professors', root_path %>
+  <%= link_to "Courses", courses_path, method: :get %>
+  <%= link_to "Sections", sections_path, method: :get %>
+  <%= link_to "Students", students_path, method: :get %>
+  <%= link_to "Enrollments", enrollments_path, method: :get %>
+  <%= link_to_unless(current_user.nil?, 'Log Out', destroy_user_session_path, method: :delete) do |name|
+    link_to('')
+    
+  end %>
   <%= yield %>
   </body>
 </html>

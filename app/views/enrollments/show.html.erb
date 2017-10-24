@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Student:</strong>
+  <%= @enrollment.student.ID_Number %>
+</p>
+
+<p>
+  <strong>Section:</strong>
+  <%= @enrollment.section.section_number %>
+</p>
+
+<%= link_to 'Edit', edit_enrollment_path(@enrollment) %> |
+<%= link_to 'Back', enrollments_path %>
