@@ -1,0 +1,149 @@
+warning: LF will be replaced by CRLF in app/controllers/sections_controller.rb.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in app/models/course.rb.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in app/models/professor.rb.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in app/models/section.rb.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in app/views/sections/_form.html.erb.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in app/views/sections/_section.json.jbuilder.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in app/views/sections/index.html.erb.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in app/views/sections/show.html.erb.
+The file will have its original line endings in your working directory.
+[1mdiff --git a/app/controllers/sections_controller.rb b/app/controllers/sections_controller.rb[m
+[1mindex 29b1b7b..01d6601 100644[m
+[1m--- a/app/controllers/sections_controller.rb[m
+[1m+++ b/app/controllers/sections_controller.rb[m
+[36m@@ -69,6 +69,6 @@[m [mclass SectionsController < ApplicationController[m
+ [m
+     # Never trust parameters from the scary internet, only allow the white list through.[m
+     def section_params[m
+[31m-      params.require(:section).permit(:section_id, :section_course, :section_professor)[m
+[32m+[m[32m      params.require(:section).permit(:section_number, :professor_id, :course_id)[m
+     end[m
+ end[m
+[1mdiff --git a/app/models/course.rb b/app/models/course.rb[m
+[1mindex 25e8ed7..c1ccd6b 100644[m
+[1m--- a/app/models/course.rb[m
+[1m+++ b/app/models/course.rb[m
+[36m@@ -1,2 +1,3 @@[m
+ class Course < ApplicationRecord[m
+[32m+[m	[32mhas_many :sections[m
+ end[m
+[1mdiff --git a/app/models/professor.rb b/app/models/professor.rb[m
+[1mindex 8262371..288c580 100644[m
+[1m--- a/app/models/professor.rb[m
+[1m+++ b/app/models/professor.rb[m
+[36m@@ -1,2 +1,3 @@[m
+ class Professor < ApplicationRecord[m
+[32m+[m	[32mhas_many :sections[m
+ end[m
+[1mdiff --git a/app/models/section.rb b/app/models/section.rb[m
+[1mindex ec21dc1..686a0d0 100644[m
+[1m--- a/app/models/section.rb[m
+[1m+++ b/app/models/section.rb[m
+[36m@@ -1,2 +1,4 @@[m
+ class Section < ApplicationRecord[m
+[32m+[m[32m  belongs_to :professor[m
+[32m+[m[32m  belongs_to :course[m
+ end[m
+[1mdiff --git a/app/views/sections/_form.html.erb b/app/views/sections/_form.html.erb[m
+[1mindex 7e55385..e8ca88f 100644[m
+[1m--- a/app/views/sections/_form.html.erb[m
+[1m+++ b/app/views/sections/_form.html.erb[m
+[36m@@ -12,18 +12,18 @@[m
+   <% end %>[m
+ [m
+   <div class="field">[m
+[31m-    <%= form.label :section_id %>[m
+[31m-    <%= form.number_field :section_id, id: :section_section_id %>[m
+[32m+[m[32m    <%= form.label :section_number %>[m
+[32m+[m[32m    <%= form.number_field :section_number, id: :section_section_number %>[m
+   </div>[m
+ [m
+   <div class="field">[m
+[31m-    <%= form.label :section_course %>[m
+[31m-    <%= form.text_field :section_course, id: :section_section_course %>[m
+[32m+[m[32m    <%= form.label :professor_id %>[m
+[32m+[m[32m    <%= form.select(:professor_id, options_from_collection_for_select(Professor.all, :id, :professor_name)) %>[m
+   </div>[m
+ [m
+   <div class="field">[m
+[31m-    <%= form.label :section_professor %>[m
+[31m-    <%= form.text_field :section_professor, id: :section_section_professor %>[m
+[32m+[m[32m    <%= form.label :course_id %>[m
+[32m+[m[32m    <%= form.select(:course_id, options_from_collection_for_select(Course.all, :id, :course_name)) %>[m
+   </div>[m
+ [m
+   <div class="actions">[m
+[1mdiff --git a/app/views/sections/_section.json.jbuilder b/app/views/sections/_section.json.jbuilder[m
+[1mindex 8b76d28..b784214 100644[m
+[1m--- a/app/views/sections/_section.json.jbuilder[m
+[1m+++ b/app/views/sections/_section.json.jbuilder[m
+[36m@@ -1,2 +1,2 @@[m
+[31m-json.extract! section, :id, :section_id, :section_course, :section_professor, :created_at, :updated_at[m
+[32m+[m[32mjson.extract! section, :id, :section_number, :professor_id, :course_id, :created_at, :updated_at[m
+ json.url section_url(section, format: :json)[m
+[1mdiff --git a/app/views/sections/index.html.erb b/app/views/sections/index.html.erb[m
+[1mindex 7d15aca..7946d3a 100644[m
+[1m--- a/app/views/sections/index.html.erb[m
+[1m+++ b/app/views/sections/index.html.erb[m
+[36m@@ -5,9 +5,9 @@[m
+ <table>[m
+   <thead>[m
+     <tr>[m
+[31m-      <th>Section</th>[m
+[31m-      <th>Section course</th>[m
+[31m-      <th>Section professor</th>[m
+[32m+[m[32m      <th>Section number</th>[m
+[32m+[m[32m      <th>Professor</th>[m
+[32m+[m[32m      <th>Course</th>[m
+       <th colspan="3"></th>[m
+     </tr>[m
+   </thead>[m
+[36m@@ -15,9 +15,9 @@[m
+   <tbody>[m
+     <% @sections.each do |section| %>[m
+       <tr>[m
+[31m-        <td><%= section.section_id %></td>[m
+[31m-        <td><%= section.section_course %></td>[m
+[31m-        <td><%= section.section_professor %></td>[m
+[32m+[m[32m        <td><%= section.section_number %></td>[m
+[32m+[m[32m        <td><%= section.professor.professor_name %></td>[m
+[32m+[m[32m        <td><%= section.course.course_name %></td>[m
+         <td><%= link_to 'Show', section %></td>[m
+         <td><%= link_to 'Edit', edit_section_path(section) %></td>[m
+         <td><%= link_to 'Destroy', section, method: :delete, data: { confirm: 'Are you sure?' } %></td>[m
+[1mdiff --git a/app/views/sections/show.html.erb b/app/views/sections/show.html.erb[m
+[1mindex b998541..5e37d3c 100644[m
+[1m--- a/app/views/sections/show.html.erb[m
+[1m+++ b/app/views/sections/show.html.erb[m
+[36m@@ -1,18 +1,18 @@[m
+ <p id="notice"><%= notice %></p>[m
+ [m
+ <p>[m
+[31m-  <strong>Section:</strong>[m
+[31m-  <%= @section.section_id %>[m
+[32m+[m[32m  <strong>Section number:</strong>[m
+[32m+[m[32m  <%= @section.section_number %>[m
+ </p>[m
+ [m
+ <p>[m
+[31m-  <strong>Section course:</strong>[m
+[31m-  <%= @section.section_course %>[m
+[32m+[m[32m  <strong>Professor:</strong>[m
+[32m+[m[32m  <%= @section.professor.professor_name %>[m
+ </p>[m
+ [m
+ <p>[m
+[31m-  <strong>Section professor:</strong>[m
+[31m-  <%= @section.section_professor %>[m
+[32m+[m[32m  <strong>Course:</strong>[m
+[32m+[m[32m  <%= @section.course.course_name %>[m
+ </p>[m
+ [m
+ <%= link_to 'Edit', edit_section_path(@section) %> |[m
